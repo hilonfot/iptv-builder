@@ -1,0 +1,5 @@
+quality:
+  resolution_weight: 0.5
+  bitrate_weight: 0.2
+  protocol_weight: 0.1
+  latency_weight: 0.2
