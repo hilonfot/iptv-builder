@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM golang:1.24-alpine AS builder
+FROM docker.1ms.run/library/golang:1.24-alpine AS builder
 
 RUN apk add --no-cache git ca-certificates
 
@@ -17,7 +17,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 \
     ./cmd/iptv-builder
 
 # Stage 2: Runtime
-FROM alpine:3.21
+FROM docker.1ms.run/library/alpine
 
 RUN apk add --no-cache ca-certificates tzdata
 
