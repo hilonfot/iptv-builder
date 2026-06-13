@@ -4,6 +4,7 @@ import (
 	"context"
 	"log/slog"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/hilonfot/iptv-builder/internal/analyzer"
@@ -86,7 +87,13 @@ func (b *Builder) Run(ctx context.Context) error {
 
 	// ---- Step 7: Speed test ----
 	slog.Info("--- step 7/10: speed test ---")
-	cachePath := b.cacheDir + "/quality_cache.json"
+
+	// Ensure cache directory exists before load/save.
+	if err := os.MkdirAll(b.cacheDir, 0755); err != nil {
+		slog.Warn("failed to create cache dir", "dir", b.cacheDir, "error", err)
+	}
+
+	cachePath := filepath.Join(b.cacheDir, "quality_cache.json")
 	cacheStore := store.New(cachePath, time.Duration(b.cfg.App.CacheTTLHours)*time.Hour)
 	_ = cacheStore.Load() // best-effort
 

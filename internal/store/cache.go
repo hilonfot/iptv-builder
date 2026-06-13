@@ -20,8 +20,11 @@ type Cache struct {
 	ttl     time.Duration
 }
 
-// New creates a new cache Store.
+// New creates a new cache Store and ensures the parent directory exists.
 func New(path string, ttl time.Duration) *Cache {
+	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
+		slog.Warn("failed to create cache dir", "dir", filepath.Dir(path), "error", err)
+	}
 	return &Cache{
 		path:    path,
 		entries: make(map[string]model.CacheEntry),
