@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/hilonfot/iptv-builder/internal/analyzer"
-	"github.com/hilonfot/iptv-builder/internal/cache"
+	"github.com/hilonfot/iptv-builder/internal/store"
 	"github.com/hilonfot/iptv-builder/internal/config"
 	"github.com/hilonfot/iptv-builder/internal/dedupe"
 	"github.com/hilonfot/iptv-builder/internal/fetch"
@@ -87,7 +87,7 @@ func (b *Builder) Run(ctx context.Context) error {
 	// ---- Step 7: Speed test ----
 	slog.Info("--- step 7/10: speed test ---")
 	cachePath := b.cacheDir + "/quality_cache.json"
-	cacheStore := cache.New(cachePath, time.Duration(b.cfg.App.CacheTTLHours)*time.Hour)
+	cacheStore := store.New(cachePath, time.Duration(b.cfg.App.CacheTTLHours)*time.Hour)
 	_ = cacheStore.Load() // best-effort
 
 	tester := speedtest.New(b.cfg.App.Workers)
