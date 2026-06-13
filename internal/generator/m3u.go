@@ -107,6 +107,11 @@ func classifyGroup(raw string) string {
 		return "CCTV"
 	}
 
+	// 央视 / 中央 alias.
+	if strings.Contains(raw, "央视") || strings.Contains(raw, "中央") {
+		return "CCTV"
+	}
+
 	// 重庆 prefix.
 	if strings.HasPrefix(raw, "重庆") {
 		return "重庆"
